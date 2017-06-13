@@ -1,6 +1,21 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+def parent = utils.get('CMDBElement$99921323'); // Хранилище ресурсов "ТМЦ"
+
+/*
+* Метод поиска объектов по номеру основного средства
+* 
+*/
+def findObjects =
+{
+	number ->
+	
+	def objects = utils.find('CMDBElement$itasset', ['toolsNumberSAP' : number, 'parent' : parent, 'removed' : false, 'personSAP' : subject.currentPerson]);
+	
+	return objects;
+}
+
 def process =
 {
 	def firstNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']; // Массив первых символов чисел
@@ -15,7 +30,12 @@ def process =
 			
 			if (matcher.find())
 			{
+				def objects = findObjects(matcher.group());
 				
+				if (objects.size() != 0)
+				{
+					utils.edit(subject, ['CIs' : subject.CIs + object]);
+				}
 			}
 		}
 	}

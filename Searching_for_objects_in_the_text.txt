@@ -20,7 +20,7 @@ def process =
 {
 	def firstNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']; // Массив первых символов чисел
 	Pattern pattern = Pattern.compile("[0-9]{6}"); 
-	def size = subject.materialValue;
+	def size = subject.materialValue.length();
 	
 	for (def i = 0; i < size; i++)
 	{

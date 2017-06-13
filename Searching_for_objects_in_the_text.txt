@@ -30,18 +30,21 @@ def process =
 			
 			if (matcher.find())
 			{
-				def objects = findObjects(matcher.group());
+				def number = matcher.group();
+				def objects = findObjects(number);
 				
 				if (objects.size() != 0)
 				{
-					utils.edit(subject, ['CIs' : subject.CIs + object]);
+					utils.edit(subject, ['CIs' : subject.CIs + objects]);
 				}
+				
+				i = i + number;
 			}
 		}
 	}
 }
 
-if (materialValue.length() > 5) //Проверка на заполнение поля "Номера основных средств материальных ценностей"
+if (subject.materialValue.length() > 5) //Проверка на заполнение поля "Номера основных средств материальных ценностей"
 {
 	process();
 }

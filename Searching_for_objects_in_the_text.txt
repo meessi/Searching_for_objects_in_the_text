@@ -38,7 +38,7 @@ def process =
 					utils.edit(subject, ['CIs' : subject.CIs + objects]);
 				}
 				
-				i = i + number;
+				i = i + number.length();
 			}
 		}
 	}

@@ -14,8 +14,19 @@ def findObjects =
 	number ->
 	
 	def objects = utils.find('CMDBElement$itasset', ['toolsNumberSAP' : number, 'parent' : parent, 'removed' : false, 'personSAP' : subject.currentPerson]);
-	
-	return objects;
+	def size_ = objects.size();
+				
+	if (size_ == 1)
+	{
+		utils.edit(subject, ['CIs' : subject.CIs + objects[0]]);
+	}
+	else if (size_ != 0)
+	{
+		for (def j = 0; j < size_; j++)
+		{
+			utils.edit(subject, ['CIs' : subject.CIs + objects[j]]);
+		}
+	}
 }
 
 def process =
@@ -33,20 +44,6 @@ def process =
 			{
 				def number = matcher.group();
 				def objects = findObjects(number);
-				def size_ = objects.size();
-				
-				if (size_ == 1)
-				{
-					utils.edit(subject, ['CIs' : subject.CIs + objects[0]]);
-				}
-				else if (size_ != 0)
-				{
-					for (def j = 0; j < size_; j++)
-					{
-						utils.edit(subject, ['CIs' : subject.CIs + objects[j]]);
-					}
-				}
-				
 				i = i + number.length();
 			}
 		}
